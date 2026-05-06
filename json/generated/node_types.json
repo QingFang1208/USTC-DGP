@@ -24,6 +24,29 @@
       "properties": {}
     },
     {
+      "category": "Geometry",
+      "color": "#805ad5",
+      "description": "Apply cubic style to a mesh",
+      "id": "cubic_style",
+      "inputs": [
+        {
+          "customType": "mesh",
+          "id": "mesh",
+          "label": "Mesh",
+          "type": "custom"
+        }
+      ],
+      "name": "Cubic Style",
+      "outputs": [
+        {
+          "id": "xyz",
+          "label": "Matrix",
+          "type": "matrix"
+        }
+      ],
+      "properties": {}
+    },
+    {
       "category": "Data",
       "color": "#3182ce",
       "description": "Union of colored points/lines/faces and textured mesh",
