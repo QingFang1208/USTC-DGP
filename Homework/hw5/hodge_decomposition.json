@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "meta": {
+    "savedAt": "2026-05-19T14:01:30.253Z",
+    "nodeIdCounter": 6
+  },
+  "view": {
+    "offsetX": 266.55899999999986,
+    "offsetY": -12.684950000000043,
+    "scale": 0.6561000000000001
+  },
+  "nodes": [
+    {
+      "id": 0,
+      "type": "load_mesh",
+      "x": 250,
+      "y": 100,
+      "width": 180,
+      "height": 120,
+      "properties": {
+        "path": ""
+      },
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "values": null
+    },
+    {
+      "id": 1,
+      "type": "string",
+      "x": 0,
+      "y": 100,
+      "width": 180,
+      "height": 120,
+      "properties": {
+        "text": "C:\\Users\\lym29\\Documents\\GitHub\\USTC-DGP\\Homework\\hw5\\Bunny_head.obj"
+      },
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "text": "C:\\Users\\lym29\\Documents\\GitHub\\USTC-DGP\\Homework\\hw5\\Bunny_head.obj",
+      "values": null
+    },
+    {
+      "id": 2,
+      "type": "geometry_viewer",
+      "x": 1050,
+      "y": 200,
+      "width": 180,
+      "height": 180,
+      "properties": {
+        "intensity": 1.2,
+        "interaction_event": {
+          "channel": "viewer",
+          "phase": "update",
+          "sourceNodeId": 2,
+          "targetNodeId": 2,
+          "version": 1779199244157,
+          "timestampMs": 1779199244159,
+          "source": "webui",
+          "payload": {
+            "sourceViewerNodeId": 2,
+            "action": "viewer_object_display_flags",
+            "value": {
+              "target": "geom_4d6e30bce48a5acc",
+              "points": true,
+              "lines": true,
+              "faces": true
+            }
+          }
+        },
+        "light": [
+          0.45,
+          0.75,
+          0.55
+        ]
+      },
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "values": null
+    },
+    {
+      "id": 3,
+      "type": "geometry",
+      "x": 700,
+      "y": 50,
+      "width": 180,
+      "height": 220,
+      "properties": {
+        "linesCount": 1,
+        "meshCount": 1,
+        "pointsCount": 1,
+        "values": [
+          1,
+          1,
+          1
+        ]
+      },
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "values": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": 4,
+      "type": "hodge_dmp",
+      "x": 50,
+      "y": 350,
+      "width": 180,
+      "height": 180,
+      "properties": {},
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "values": null
+    },
+    {
+      "id": 5,
+      "type": "facevec2lines",
+      "x": 400,
+      "y": 300,
+      "width": 180,
+      "height": 140,
+      "properties": {},
+      "value": 0,
+      "operation": "add",
+      "label": "Result",
+      "values": null
+    }
+  ],
+  "groups": [],
+  "comments": [],
+  "connections": [
+    {
+      "from_node": 1,
+      "from_socket": "text",
+      "to_node": 0,
+      "to_socket": "path"
+    },
+    {
+      "from_node": 0,
+      "from_socket": "mesh",
+      "to_node": 3,
+      "to_socket": "mesh"
+    },
+    {
+      "from_node": 3,
+      "from_socket": "geometry",
+      "to_node": 2,
+      "to_socket": "geometry"
+    },
+    {
+      "from_node": 0,
+      "from_socket": "mesh",
+      "to_node": 4,
+      "to_socket": "mesh"
+    },
+    {
+      "from_node": 0,
+      "from_socket": "mesh",
+      "to_node": 5,
+      "to_socket": "mesh"
+    },
+    {
+      "from_node": 4,
+      "from_socket": "divfree",
+      "to_node": 5,
+      "to_socket": "facevecs"
+    },
+    {
+      "from_node": 5,
+      "from_socket": "lines",
+      "to_node": 3,
+      "to_socket": "lines"
+    }
+  ]
+}

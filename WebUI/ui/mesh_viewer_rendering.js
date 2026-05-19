@@ -68,7 +68,10 @@ export function drawHandle(viewer, handle, shared) {
     const faceLodIndex = Math.min(shared.lodIndex, handle.lods.length - 1);
     const lineLodIndex = viewer.chooseLineLodIndex(handle, faceLodIndex);
     const pointLodIndex = viewer.choosePointLodIndex(handle, faceLodIndex);
-    const overlayOnly = !displayFlags.faces;
+    const hasNativeLines = Array.isArray(handle.geometry?.lineIndices) &&
+        handle.geometry.lineIndices.length > 0 &&
+        !handle.geometry.lineIndicesDerived;
+    const overlayLines = !displayFlags.faces;
     if (!viewer.lastDrawStats) {
         viewer.lastDrawStats = { faces: 0, lines: 0, points: 0, faceIndices: 0, lineIndices: 0, pointIndices: 0 };
     }
@@ -88,8 +91,11 @@ export function drawHandle(viewer, handle, shared) {
         viewer.ensureLineRenderResources(handle);
     }
     const lineLod = viewer.getRenderableLineLod(handle, lineLodIndex);
+    const edgeLod = hasNativeLines && Array.isArray(handle.edgeLods) && handle.edgeLods.length > 0
+        ? handle.edgeLods[Math.min(lineLodIndex, handle.edgeLods.length - 1)]
+        : null;
     if (displayFlags.lines && lineLod && lineLod.indexCount > 0) {
-        if (overlayOnly) {
+        if (overlayLines) {
             gl.disable(gl.DEPTH_TEST);
         }
         gl.uniform1f(viewer.uniforms.renderMode, 1.0);
@@ -97,7 +103,20 @@ export function drawHandle(viewer, handle, shared) {
         gl.drawElements(gl.LINES, lineLod.indexCount, gl.UNSIGNED_INT, 0);
         viewer.lastDrawStats.lines += 1;
         viewer.lastDrawStats.lineIndices += lineLod.indexCount;
-        if (overlayOnly) {
+        if (overlayLines) {
+            gl.enable(gl.DEPTH_TEST);
+        }
+    }
+    if (displayFlags.lines && edgeLod && edgeLod.indexCount > 0) {
+        if (overlayLines) {
+            gl.disable(gl.DEPTH_TEST);
+        }
+        gl.uniform1f(viewer.uniforms.renderMode, 1.0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, edgeLod.ebo);
+        gl.drawElements(gl.LINES, edgeLod.indexCount, gl.UNSIGNED_INT, 0);
+        viewer.lastDrawStats.lines += 1;
+        viewer.lastDrawStats.lineIndices += edgeLod.indexCount;
+        if (overlayLines) {
             gl.enable(gl.DEPTH_TEST);
         }
     }
@@ -105,14 +124,14 @@ export function drawHandle(viewer, handle, shared) {
         ? handle.arrowLods[Math.min(lineLodIndex, handle.arrowLods.length - 1)]
         : null;
     if (displayFlags.lines && arrowLod && arrowLod.vao && arrowLod.vertexCount > 0) {
-        if (overlayOnly) {
+        if (overlayLines) {
             gl.disable(gl.DEPTH_TEST);
         }
         gl.uniform1f(viewer.uniforms.renderMode, 1.0);
         gl.bindVertexArray(arrowLod.vao);
         gl.drawArrays(gl.LINES, 0, arrowLod.vertexCount);
         gl.bindVertexArray(handle.vao);
-        if (overlayOnly) {
+        if (overlayLines) {
             gl.enable(gl.DEPTH_TEST);
         }
     }

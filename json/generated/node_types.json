@@ -47,6 +47,36 @@
       "properties": {}
     },
     {
+      "category": "Method",
+      "color": "#805ad5",
+      "description": "Convert face vectors to lines for a mesh.",
+      "id": "facevec2lines",
+      "inputs": [
+        {
+          "customType": "mesh",
+          "id": "mesh",
+          "label": "Mesh",
+          "type": "custom"
+        },
+        {
+          "customType": "matrix",
+          "id": "facevecs",
+          "label": "Facevecs",
+          "type": "matrix"
+        }
+      ],
+      "name": "Face Vector to Lines",
+      "outputs": [
+        {
+          "customType": "lines",
+          "id": "lines",
+          "label": "Lines",
+          "type": "custom"
+        }
+      ],
+      "properties": {}
+    },
+    {
       "category": "Data",
       "color": "#3182ce",
       "description": "Union of colored points/lines/faces and textured mesh",
@@ -205,6 +235,39 @@
           "type": "array"
         }
       }
+    },
+    {
+      "category": "Geometry",
+      "color": "#805ad5",
+      "description": "Compute Hodge Decomposition for a mesh",
+      "id": "hodge_dmp",
+      "inputs": [
+        {
+          "customType": "mesh",
+          "id": "mesh",
+          "label": "Mesh",
+          "type": "custom"
+        }
+      ],
+      "name": "Hodge Decomposition",
+      "outputs": [
+        {
+          "id": "divfree",
+          "label": "Divfree",
+          "type": "matrix"
+        },
+        {
+          "id": "curlfree",
+          "label": "Curlfree",
+          "type": "matrix"
+        },
+        {
+          "id": "harmonic",
+          "label": "Harmonic",
+          "type": "matrix"
+        }
+      ],
+      "properties": {}
     },
     {
       "category": "Interaction",

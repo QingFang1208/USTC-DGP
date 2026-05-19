@@ -444,11 +444,13 @@ async function testMeshViewerPanelStagesInitialFieldFetches() {
     const resolved = await panel.resolvePayload(payload);
     assert.equal(resolved.positions.length, 9);
     assert.equal(resolved.triIndices.length, 3);
+    assert.equal(resolved.lineIndices.length, 2);
+    assert.equal(resolved.pointIndices.length, 2);
     assert.equal(Array.isArray(resolved.loadedFields), true);
     assert.ok(requestedFields.includes('positions'));
     assert.ok(requestedFields.includes('triIndices'));
-    assert.equal(requestedFields.includes('pointIndices'), false);
-    assert.equal(requestedFields.includes('lineIndices'), false);
+    assert.ok(requestedFields.includes('lineIndices'));
+    assert.ok(requestedFields.includes('pointIndices'));
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -691,12 +693,18 @@ async function testMeshViewerLinesModuleSchedulesEdgeLodsOnlyWhenNeeded() {
     key: 'mesh-b',
     triIndices: [0, 1, 2],
     lineLods: [{ ebo: {}, indexCount: 2 }],
-    edgeLods: null
+    edgeLods: null,
+    geometry: {
+      lineIndices: [0, 1],
+      lineIndicesDerived: false
+    }
   };
+  viewer.currentMeshHandle = meshWithNativeLines;
   ensureLineRenderResources(viewer, meshWithNativeLines);
 
   assert.ok(Array.isArray(meshWithoutNativeLines.edgeLods));
-  assert.equal(meshWithNativeLines.edgeLods, null);
+  assert.ok(Array.isArray(meshWithNativeLines.edgeLods));
+  assert.ok(meshWithNativeLines.edgeLods[0].indexCount > 0);
   assert.equal(viewer.pendingEdgeLodBuilds.has('mesh-b'), false);
 }
 

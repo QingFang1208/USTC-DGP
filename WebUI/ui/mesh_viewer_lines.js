@@ -70,7 +70,13 @@ export function ensureLineRenderResources(viewer, handle) {
     }
     const hasNativeLineLods = Array.isArray(handle.lineLods) && handle.lineLods.some((lod) => lod && lod.indexCount > 0);
     const hasEdgeLods = Array.isArray(handle.edgeLods) && handle.edgeLods.some((lod) => lod && lod.indexCount > 0);
-    if (!hasNativeLineLods && !hasEdgeLods && Array.isArray(handle.triIndices) && handle.triIndices.length > 0) {
+    const hasExplicitLines = Array.isArray(handle.geometry?.lineIndices) &&
+        handle.geometry.lineIndices.length > 0 &&
+        !handle.geometry.lineIndicesDerived;
+    const shouldBuildTriangleEdges = Array.isArray(handle.triIndices) &&
+        handle.triIndices.length > 0 &&
+        (!hasNativeLineLods || hasExplicitLines);
+    if (!hasEdgeLods && shouldBuildTriangleEdges) {
         const isCurrentHandle = viewer.currentMeshHandle === handle || viewer.currentMeshHandle?.parts?.includes?.(handle);
         if (isCurrentHandle && viewer.gl) {
             buildEdgeLods(viewer, handle);

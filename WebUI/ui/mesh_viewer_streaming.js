@@ -33,9 +33,11 @@ export function getPrimaryStreamFields(viewer, payload) {
     const viewerType = String(payload?.viewerType || '').toLowerCase();
     if ((viewerType === 'mesh' || triangleCount > 0) && (available.has('triIndices') || available.has('indices'))) {
         required.add(available.has('triIndices') ? 'triIndices' : 'indices');
-    } else if ((viewerType === 'lines' || lineCount > 0) && available.has('lineIndices')) {
+    }
+    if ((viewerType === 'lines' || lineCount > 0) && available.has('lineIndices')) {
         required.add('lineIndices');
-    } else if ((viewerType === 'points' || pointCount > 0) && available.has('pointIndices')) {
+    }
+    if ((viewerType === 'points' || pointCount > 0) && available.has('pointIndices')) {
         required.add('pointIndices');
     }
     if (required.size === 1 && available.has('triIndices')) {
