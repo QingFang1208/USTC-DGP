@@ -239,6 +239,35 @@
     {
       "category": "Geometry",
       "color": "#805ad5",
+      "description": "Compute heat distance from a mesh",
+      "id": "heat_distance",
+      "inputs": [
+        {
+          "customType": "mesh",
+          "id": "mesh",
+          "label": "Mesh",
+          "type": "custom"
+        },
+        {
+          "customType": "number",
+          "id": "idv",
+          "label": "IDV",
+          "type": "number"
+        }
+      ],
+      "name": "Heat Distance",
+      "outputs": [
+        {
+          "id": "distance",
+          "label": "Distance",
+          "type": "list"
+        }
+      ],
+      "properties": {}
+    },
+    {
+      "category": "Geometry",
+      "color": "#805ad5",
       "description": "Compute Hodge Decomposition for a mesh",
       "id": "hodge_dmp",
       "inputs": [
